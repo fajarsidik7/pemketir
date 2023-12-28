@@ -92,3 +92,37 @@ FROM
         <input type="submit" value="Simpan Data">
         <br><br>
     </form>
+
+
+
+
+//////////////////////////////////////
+
+<?php
+
+                    if ($_SERVER["REQUEST_METHOD"] == "GET") {
+                        // Memproses form jika data dikirimkan melalui metode GET
+                        if (isset($_GET['kategori'])) {
+                            $kategori_terpilih = $_GET['kategori'];
+
+                            // Mengambil id_kategori berdasarkan nm_kategori yang dipilih
+                            $sql_id_kategori = "SELECT id_kategori FROM kategori_2211501073 WHERE nm_kategori = '$kategori_terpilih'";
+                            $result_id_kategori = $conn_2211501073_Fajar_Sidik->query($sql_id_kategori);
+
+                            if ($result_id_kategori->num_rows > 0) {
+                                $row_id_kategori = $result_id_kategori->fetch_assoc();
+                                $id_actual = $row_id_kategori['id_kategori'];
+
+                                // Update kolom id_actual pada tabel classify_2211501073 dengan nilai yang dipilih
+                                $sql_update_actual = "UPDATE classify_2211501073 SET id_actual = '$id_actual' WHERE data_bersih = '$kategori_terpilih'";
+                                $result_update_actual = $conn_2211501073_Fajar_Sidik->query($sql_update_actual);
+
+                                if ($result_update_actual) {
+                                    echo "Data berhasil disimpan.";
+                                } else {
+                                    echo "Error: " . $conn_2211501073_Fajar_Sidik->error;
+                                }
+                            }
+                        }
+                    }
+                    ?>
